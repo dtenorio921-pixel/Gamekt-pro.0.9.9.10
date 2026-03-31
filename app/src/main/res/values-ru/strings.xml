@@ -1,24 +1,4 @@
 <resources>
-    <string name="abc_action_bar_up_description">Перейти вверх</string>
-    <string name="abc_action_mode_done">Готово</string>
-    <string name="abc_capital_off">ВЫКЛ</string>
-    <string name="abc_capital_on">ВКЛ</string>
-    <string name="abc_menu_alt_shortcut_label">Alt+</string>
-    <string name="abc_menu_ctrl_shortcut_label">Ctrl+</string>
-    <string name="abc_menu_delete_shortcut_label">delete</string>
-    <string name="abc_menu_enter_shortcut_label">enter</string>
-    <string name="abc_menu_function_shortcut_label">Function+</string>
-    <string name="abc_menu_meta_shortcut_label">Meta+</string>
-    <string name="abc_menu_shift_shortcut_label">Shift+</string>
-    <string name="abc_menu_space_shortcut_label">space</string>
-    <string name="abc_menu_sym_shortcut_label">Sym+</string>
-    <string name="abc_prepend_shortcut_label">Menu+</string>
-    <string name="abc_search_hint">Поиск…</string>
-    <string name="abc_searchview_description_clear">Очистить запрос</string>
-    <string name="abc_searchview_description_search">Поиск</string>
-    <string name="abc_searchview_description_submit">Отправить запрос</string>
-    <string name="abc_searchview_description_voice">Голосовой поиск</string>
-    <string name="abc_toolbar_collapse_description">Свернуть</string>
     <string name="about">О программе</string>
     <string name="acknowledge">ОК</string>
     <string name="action_add_game">Добавить игру</string>
@@ -39,8 +19,8 @@
     <string name="allowed_orientations">Разрешённые ориентации</string>
     <string name="amazon_install_confirmation_message">Устанавливаемое приложение имеет следующие требования к пространству. Вы хотите продолжить?
 
-	Размер загрузки: %1$s
-	Доступное место: %2$s</string>
+        Размер загрузки: %1$s
+        Доступное место: %2$s</string>
     <string name="amazon_install_game_title">Загрузить игру</string>
     <string name="amazon_integration_title">Интеграция Amazon Games (альфа)</string>
     <string name="amazon_login_cancel">Отмена</string>
@@ -351,9 +331,9 @@
     <string name="epic_game_not_found">Игра не найдена</string>
     <string name="epic_install_game_message">Устанавливаемое приложение имеет следующие требования к пространству. Вы хотите продолжить?
 
-	Размер загрузки: %1$s
-	Размер на диске: %2$s
-	Доступное место: %3$s</string>
+        Размер загрузки: %1$s
+        Размер на диске: %2$s
+        Доступное место: %3$s</string>
     <string name="epic_install_game_title">Загрузить игру</string>
     <string name="epic_integration_title">Интеграция Epic Games</string>
     <string name="epic_login_cancel">Отмена</string>
@@ -471,8 +451,8 @@
     <string name="get_support_on_discord">Получить поддержку на Discord</string>
     <string name="gog_install_confirmation_message">Устанавливаемое приложение имеет следующие требования к пространству. Вы хотите продолжить?
 
-	Размер загрузки: %1$s
-	Доступное место: %2$s</string>
+        Размер загрузки: %1$s
+        Доступное место: %2$s</string>
     <string name="gog_install_game_title">Загрузить игру</string>
     <string name="gog_login_cancel">Отмена</string>
     <string name="gog_login_success_title">Вход выполнен успешно</string>
@@ -551,9 +531,9 @@ Ubuntu RootFs - releases.ubuntu.com/focal</string>
     <string name="library_download_install_imagefs_title">Загрузить и установить ImageFS</string>
     <string name="library_download_prompt_message">Устанавливаемое приложение имеет следующие требования к пространству. Вы хотите продолжить?
 
-	Размер загрузки: %1$s
-	Размер на диске: %2$s
-	Доступное место: %3$s</string>
+        Размер загрузки: %1$s
+        Размер на диске: %2$s
+        Доступное место: %3$s</string>
     <string name="library_export_cancelled">Экспорт отменён</string>
     <string name="library_exported">Экспортировано</string>
     <string name="library_failed_to_create_shortcut">Ошибка создания ярлыка: %s</string>
@@ -679,9 +659,9 @@ Ubuntu RootFs - releases.ubuntu.com/focal</string>
     <string name="main_save_conflict_message">Есть новое удалённое сохранение и новое локальное сохранение, какое вы хотите сохранить?
 
 Локальное сохранение:
-	%1$s
+        %1$s
 Удалённое сохранение:
-	%2$s</string>
+        %2$s</string>
     <string name="main_save_conflict_title">Конфликт сохранений</string>
     <string name="main_save_conflict_upgrade_v1_title">Выберите версию сохранения</string>
     <string name="main_save_conflict_upgrade_v1_message">Мы исправили обработку путей облачных сохранений для этой игры и обнаружили различия между локальным и облачным сохранением.\n\nЛокальное сохранение:\n\t%1$s\nОблачное сохранение:\n\t%2$s</string>
@@ -1070,9 +1050,9 @@ https://gamenative.app
 Доступное место: %3$s</string>
     <string name="steam_install_space_prompt">Устанавливаемое приложение имеет следующие требования к пространству. Вы хотите продолжить?
 
-	Размер загрузки: %1$s
-	Размер на диске: %2$s
-	Доступное место: %3$s</string>
+        Размер загрузки: %1$s
+        Размер на диске: %2$s
+        Доступное место: %3$s</string>
     <string name="steam_never">Никогда</string>
     <string name="steam_not_logged_in">Вы должны войти в Steam, чтобы использовать эту функцию</string>
     <string name="steam_offline_mode">Автономный режим Steam</string>
