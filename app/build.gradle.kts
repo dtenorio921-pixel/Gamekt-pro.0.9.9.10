@@ -172,6 +172,9 @@ android {
             isIncludeAndroidResources = true
         }
     }
+    lint {
+        disable += "ExtraTranslation"
+    }
     dynamicFeatures += setOf(":ubuntufs")
 
     kotlinter {
