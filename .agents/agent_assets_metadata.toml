@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "t1qgW1XOXq5LbSNQqR31a"
+uri = "file://attached_assets/generated_images/gamektpro_icon.png"
+type = "image"
+title = "Ícone Gamekt Pro — Dragão com Controle"
