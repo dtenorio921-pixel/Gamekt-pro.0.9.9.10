@@ -83,10 +83,10 @@ jobs:
         run: |
           cat > local.properties << PROPS
           sdk.dir=$ANDROID_HOME
-          POSTHOG_API_KEY=${POSTHOG_API_KEY:-}
+          POSTHOG_API_KEY=${POSTHOG_API_KEY:-phc_gA6dlMC2Zp0idMNTbz8Lr9g0k49gE14UBDUaYUw7iQB}
           POSTHOG_HOST=${POSTHOG_HOST:-https://us.i.posthog.com}
-          STEAMGRIDDB_API_KEY=${STEAMGRIDDB_API_KEY:-}
-          CLOUD_PROJECT_NUMBER=${CLOUD_PROJECT_NUMBER:-}
+          STEAMGRIDDB_API_KEY=${STEAMGRIDDB_API_KEY:-4c1d84cee958285225eeb67be313f8e9}
+          CLOUD_PROJECT_NUMBER=${CLOUD_PROJECT_NUMBER:-placeholder}
           PROPS
 
       # ── 7. Build Debug APK ─────────────────────────────────────────────────
@@ -99,19 +99,19 @@ jobs:
       - name: Build Debug APK
         run: |
           ./gradlew :app:assembleDebug \
-            -PPOSTHOG_API_KEY="${POSTHOG_API_KEY:-}" \
+            -PPOSTHOG_API_KEY="${POSTHOG_API_KEY:-phc_gA6dlMC2Zp0idMNTbz8Lr9g0k49gE14UBDUaYUw7iQB}" \
             -PPOSTHOG_HOST="${POSTHOG_HOST:-https://us.i.posthog.com}" \
-            -PSTEAMGRIDDB_API_KEY="${STEAMGRIDDB_API_KEY:-}" \
-            -PCLOUD_PROJECT_NUMBER="${CLOUD_PROJECT_NUMBER:-}"
+            -PSTEAMGRIDDB_API_KEY="${STEAMGRIDDB_API_KEY:-4c1d84cee958285225eeb67be313f8e9}" \
+            -PCLOUD_PROJECT_NUMBER="${CLOUD_PROJECT_NUMBER:-placeholder}"
 
       # ── 8. Build Release-Signed APK ────────────────────────────────────────
       - name: Build Release-Signed APK
         run: |
           ./gradlew :app:assembleRelease-signed \
-            -PPOSTHOG_API_KEY="${POSTHOG_API_KEY:-}" \
+            -PPOSTHOG_API_KEY="${POSTHOG_API_KEY:-phc_gA6dlMC2Zp0idMNTbz8Lr9g0k49gE14UBDUaYUw7iQB}" \
             -PPOSTHOG_HOST="${POSTHOG_HOST:-https://us.i.posthog.com}" \
-            -PSTEAMGRIDDB_API_KEY="${STEAMGRIDDB_API_KEY:-}" \
-            -PCLOUD_PROJECT_NUMBER="${CLOUD_PROJECT_NUMBER:-}"
+            -PSTEAMGRIDDB_API_KEY="${STEAMGRIDDB_API_KEY:-4c1d84cee958285225eeb67be313f8e9}" \
+            -PCLOUD_PROJECT_NUMBER="${CLOUD_PROJECT_NUMBER:-placeholder}"
 
       # ── 9. Upload dos APKs ─────────────────────────────────────────────────
       - name: Upload Debug APK
