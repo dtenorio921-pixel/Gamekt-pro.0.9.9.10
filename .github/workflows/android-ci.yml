@@ -1,0 +1,129 @@
+name: Android CI — Gamekt Pro
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build & Sign APK
+    runs-on: ubuntu-latest
+
+    env:
+      POSTHOG_API_KEY:        ${{ secrets.POSTHOG_API_KEY }}
+      POSTHOG_HOST:           ${{ secrets.POSTHOG_HOST }}
+      STEAMGRIDDB_API_KEY:    ${{ secrets.STEAMGRIDDB_API_KEY }}
+      CLOUD_PROJECT_NUMBER:   ${{ secrets.CLOUD_PROJECT_NUMBER }}
+
+    steps:
+
+      # ── 1. Checkout ────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Java 17 (Kotlin / Gradle compilam com Java 17) ─────────────────
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: gradle
+
+      # ── 3. Android SDK + NDK 22.1.7171670 + CMake ─────────────────────────
+      #    NDK 22 compila: proot, virglrenderer, patchelf, xconnectorpatch,
+      #    extras — suporte a arm64-v8a (Box64) e armeabi-v7a (Box86)
+      - name: Set up Android SDK / NDK / CMake
+        uses: android-actions/setup-android@v3
+
+      - name: Install NDK 22.1.7171670 and CMake 3.22.1
+        run: |
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKMANAGER" \
+            "ndk;22.1.7171670" \
+            "cmake;3.22.1" \
+            "build-tools;35.0.0" \
+            "platforms;android-35"
+
+      # ── 4. Gradle wrapper ──────────────────────────────────────────────────
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # ── 5. Keystore (base64 → arquivo) ─────────────────────────────────────
+      #    Secret KEYSTORE = conteúdo do .jks em base64:
+      #      base64 -w 0 meuapp.keystore
+      - name: Configure Keystore
+        env:
+          KEYSTORE:                ${{ secrets.KEYSTORE }}
+          KEYSTORE_KEY_ALIAS:      ${{ secrets.KEYSTORE_KEY_ALIAS }}
+          KEYSTORE_KEY_PASSWORD:   ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          KEYSTORE_STORE_PASSWORD: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
+        run: |
+          mkdir -p app/keystores
+          echo "$KEYSTORE" | base64 --decode > app/keystores/keystore.jks
+          cat > app/keystores/keystore.properties << PROPS
+          storeFile=keystores/keystore.jks
+          keyAlias=$KEYSTORE_KEY_ALIAS
+          storePassword=$KEYSTORE_STORE_PASSWORD
+          keyPassword=$KEYSTORE_KEY_PASSWORD
+          PROPS
+
+      # ── 6. local.properties (SDK path + API keys) ──────────────────────────
+      #    Os secrets são passados também via -P na linha de comando do Gradle
+      #    (etapa 8) para garantir que findProperty() os encontre mesmo que
+      #    o local.properties não seja lido na fase de configuração.
+      - name: Write local.properties
+        run: |
+          cat > local.properties << PROPS
+          sdk.dir=$ANDROID_HOME
+          POSTHOG_API_KEY=${POSTHOG_API_KEY:-}
+          POSTHOG_HOST=${POSTHOG_HOST:-https://us.i.posthog.com}
+          STEAMGRIDDB_API_KEY=${STEAMGRIDDB_API_KEY:-}
+          CLOUD_PROJECT_NUMBER=${CLOUD_PROJECT_NUMBER:-}
+          PROPS
+
+      # ── 7. Build Debug APK ─────────────────────────────────────────────────
+      #    Linguagens / camadas compiladas neste build:
+      #      Kotlin · Java · C/C++ (NDK/CMake):
+      #        proot · virglrenderer · patchelf · xconnectorpatch · extras
+      #      Binários pré-compilados em assets/:
+      #        Box64 (arm64-v8a) · Box86 (armeabi-v7a)
+      #        DXVK / dxvk-async · Wine / Proton · Mesa / Turnip / Adreno
+      - name: Build Debug APK
+        run: |
+          ./gradlew :app:assembleDebug \
+            -PPOSTHOG_API_KEY="${POSTHOG_API_KEY:-}" \
+            -PPOSTHOG_HOST="${POSTHOG_HOST:-https://us.i.posthog.com}" \
+            -PSTEAMGRIDDB_API_KEY="${STEAMGRIDDB_API_KEY:-}" \
+            -PCLOUD_PROJECT_NUMBER="${CLOUD_PROJECT_NUMBER:-}"
+
+      # ── 8. Build Release-Signed APK ────────────────────────────────────────
+      - name: Build Release-Signed APK
+        run: |
+          ./gradlew :app:assembleRelease-signed \
+            -PPOSTHOG_API_KEY="${POSTHOG_API_KEY:-}" \
+            -PPOSTHOG_HOST="${POSTHOG_HOST:-https://us.i.posthog.com}" \
+            -PSTEAMGRIDDB_API_KEY="${STEAMGRIDDB_API_KEY:-}" \
+            -PCLOUD_PROJECT_NUMBER="${CLOUD_PROJECT_NUMBER:-}"
+
+      # ── 9. Upload dos APKs ─────────────────────────────────────────────────
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: gamektpro-debug-${{ github.sha }}
+          path: app/build/outputs/apk/debug/*.apk
+          retention-days: 7
+
+      - name: Upload Release APK (assinado)
+        uses: actions/upload-artifact@v4
+        with:
+          name: gamektpro-release-signed-${{ github.sha }}
+          path: app/build/outputs/apk/release-signed/*.apk
+          retention-days: 30
